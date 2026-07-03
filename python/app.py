@@ -433,12 +433,10 @@ with col_resumo:
         segmentos_html += f'<div style="width:{contagem.get(s, 0):.1f}%; background:{COLORS["status"][s]}; {borda}"></div>'
 
     legendas_html = "".join(
-        f"""
-        <div style="display:flex; align-items:center; gap:0.4rem; margin:0.25rem 1rem 0.25rem 0;">
-            <span style="width:9px; height:9px; border-radius:50%; background:{COLORS['status'][s]}; display:inline-block;"></span>
-            <span style="font-size:0.82rem; color:{COLORS['ink_secondary']};">{STATUS_LABELS[s]}: <b>{contagem.get(s, 0):.0f}%</b></span>
-        </div>
-        """
+        f'<div style="display:flex; align-items:center; gap:0.4rem; margin:0.25rem 1rem 0.25rem 0;">'
+        f'<span style="width:9px; height:9px; border-radius:50%; background:{COLORS["status"][s]}; display:inline-block;"></span>'
+        f'<span style="font-size:0.82rem; color:{COLORS["ink_secondary"]};">{STATUS_LABELS[s]}: <b>{contagem.get(s, 0):.0f}%</b></span>'
+        f'</div>'
         for s in presentes
     )
 
