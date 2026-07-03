@@ -49,10 +49,15 @@ if (-not $streamlitVivo) {
 }
 Write-Host "Streamlit rodando em http://localhost:8501" -ForegroundColor Green
 
-# 2) Sobe o tunel publico (Cloudflare)
+# 2) Sobe o tunel publico (Cloudflare) - sempre um novo, garantindo um link fresco
 Write-Host "Abrindo link publico (pode levar ate 15s)..." -ForegroundColor Yellow
 
-if (Test-Path "tunnel_err.log") { Remove-Item "tunnel_err.log" -Force }
+# Mata qualquer cloudflared de uma execucao anterior, senao o log fica travado
+# e o script acaba lendo a URL antiga (ja morta) em vez de gerar uma nova
+Get-Process cloudflared -ErrorAction SilentlyContinue | Stop-Process -Force
+Start-Sleep -Milliseconds 800
+
+if (Test-Path "tunnel_err.log") { Remove-Item "tunnel_err.log" -Force -ErrorAction SilentlyContinue }
 Start-Process -FilePath ".\cloudflared.exe" -ArgumentList "tunnel", "--url", "http://localhost:8501" `
     -RedirectStandardOutput "tunnel_out.log" -RedirectStandardError "tunnel_err.log" -WindowStyle Hidden
 
