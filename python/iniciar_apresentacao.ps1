@@ -2,7 +2,7 @@
 # Sobe o dashboard Streamlit local + um link publico via Cloudflare Tunnel,
 # e mostra a URL bem grande no terminal para compartilhar com a plateia.
 
-$ErrorActionPreference = "Stop"
+$ErrorActionPreference = "Continue"
 Set-Location $PSScriptRoot
 
 Write-Host ""
@@ -13,7 +13,7 @@ Write-Host ""
 
 # 0) Garante que as dependencias Python estao instaladas
 Write-Host "Verificando dependencias Python..." -ForegroundColor Yellow
-python -c "import streamlit, serial, pandas, plotly" 2>$null
+python -c "import streamlit, serial, pandas, plotly" | Out-Null
 if ($LASTEXITCODE -ne 0) {
     Write-Host "Instalando dependencias (primeira vez, pode levar um minuto)..." -ForegroundColor Yellow
     python -m pip install -r requirements.txt
