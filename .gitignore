@@ -1,0 +1,8 @@
+python/cloudflared.exe
+python/*.log
+python/__pycache__/
+__pycache__/
+*.pyc
+python/venv/
+python/.venv/
+.claude/
