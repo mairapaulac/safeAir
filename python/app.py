@@ -228,10 +228,15 @@ st.markdown(
 )
 
 # ---------------------------------------------------------------------------
-# Estado da sessao
+# Estado compartilhado entre TODOS os clientes conectados ao servidor
+# (PC, celular, etc.) - st.session_state seria por aba/dispositivo, o que
+# faria cada acesso novo (ex: celular) nao ver a conexao feita no PC.
 # ---------------------------------------------------------------------------
-if "reader" not in st.session_state:
-    st.session_state.reader = None
+@st.cache_resource
+def estado_compartilhado():
+    return {"reader": None}
+
+estado = estado_compartilhado()
 
 # ---------------------------------------------------------------------------
 # Sidebar - configuracao da conexao serial
@@ -260,20 +265,20 @@ with st.sidebar:
     desconectar = col_b.button("Desconectar", use_container_width=True)
 
     if conectar:
-        if st.session_state.reader is not None:
-            st.session_state.reader.stop()
+        if estado["reader"] is not None:
+            estado["reader"].stop()
         reader = SerialReader(porta, int(baud_rate))
         reader.start()
         if reader.is_connected:
-            st.session_state.reader = reader
+            estado["reader"] = reader
             st.success(f"Conectado em {porta}")
         else:
-            st.session_state.reader = None
+            estado["reader"] = None
             st.error(f"Falha ao conectar: {reader.last_error}")
 
-    if desconectar and st.session_state.reader is not None:
-        st.session_state.reader.stop()
-        st.session_state.reader = None
+    if desconectar and estado["reader"] is not None:
+        estado["reader"].stop()
+        estado["reader"] = None
         st.info("Desconectado.")
 
     st.markdown("---")
@@ -298,7 +303,7 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-reader = st.session_state.reader
+reader = estado["reader"]
 
 # ---------------------------------------------------------------------------
 # Estado: nao conectado
