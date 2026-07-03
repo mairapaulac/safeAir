@@ -188,6 +188,40 @@ st.markdown(
             text-align: center;
             color: {COLORS["ink_secondary"]};
         }}
+
+        /* --- Responsivo (celular/tablet) --------------------------------- */
+        @media (max-width: 640px) {{
+            .safeair-header {{
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.6rem;
+            }}
+            .safeair-title {{
+                font-size: 1.5rem;
+            }}
+            .safeair-tagline {{
+                font-size: 0.85rem;
+            }}
+            .metric-card {{
+                padding: 0.9rem 1rem;
+            }}
+            .metric-value {{
+                font-size: 1.8rem;
+            }}
+            .status-badge {{
+                font-size: 1.1rem;
+            }}
+            .risk-banner {{
+                font-size: 0.9rem;
+                padding: 0.8rem 1rem;
+            }}
+            .section-title {{
+                font-size: 0.95rem;
+            }}
+            .disconnected-box {{
+                padding: 1.5rem;
+            }}
+        }}
     </style>
     """,
     unsafe_allow_html=True,
